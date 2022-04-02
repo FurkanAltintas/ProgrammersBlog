@@ -1,0 +1,137 @@
+﻿@model CategoryListDto
+
+@{
+    ViewData["Title"] = "Kategori Listesi";
+}
+
+@if (Model.ResultStatus == ResultStatus.Success)
+{
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Kategoriler
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="categoriesTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Adı</th>
+                            <th>Açıklaması</th>
+                            <th>Akit Mi ?</th>
+                            <th>Silinmiş Mi ?</th>
+                            <th>Oluşturulma Tarihi</th>
+                            <th>Oluşturan Kullanıcı Adı</th>
+                            <th>Son Düzenlenme Tarihi</th>
+                            <th>Son Düzenleyen Kullanıcı Adı</th>
+                            <th>Not</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Adı</th>
+                            <th>Açıklaması</th>
+                            <th>Akit Mi ?</th>
+                            <th>Silinmiş Mi ?</th>
+                            <th>Oluşturulma Tarihi</th>
+                            <th>Oluşturan Kullanıcı Adı</th>
+                            <th>Son Düzenlenme Tarihi</th>
+                            <th>Son Düzenleyen Kullanıcı Adı</th>
+                            <th>Not</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <tr>
+                                <td>@category.Name</td>
+                                <td>@category.Description</td>
+                                <td>@category.IsActive</td>
+                                <td>@category.IsDeleted</td>
+                                <td>@category.CreatedDate</td>
+                                <td>@category.CreatedByName</td>
+                                <td>@category.ModifiedByName</td>
+                                <td>@category.ModifiedDate</td>
+                                <td>@category.Note</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.ResultStatus == ResultStatus.Error)
+{
+    <div class="alert alert-danger">
+        @Model.Message
+        <br>
+        Dashboard sayfasına geri dönmek için lütfen <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="alert-link">tıklayınız</a>
+    </div>
+}
+
+@section Scripts {
+<script>
+                $(document).ready( function () {
+            $('#categoriesTable').DataTable({
+                    dom: "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
+                         "<'row'<'col-sm-12'tr>>" +
+                         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+                    buttons: [
+                        {
+                            text: 'Ekle',
+                            className: 'btn btn-success',
+                            action: function (e, dt, node, config) {
+                                alert( 'Ekle butonuna basıldı' );
+                            }
+                        },
+                        {
+                            text: 'Yenile',
+                            className: 'btn btn-warning',
+                            action: function (e, dt, node, config) {
+                                alert( 'Yenile butonuna basıldı.' );
+                            }
+                        },
+                    ],
+                    language: {
+        "emptyTable": "Tabloda herhangi bir veri mevcut değil",
+        "info": "_TOTAL_ kayıttan _START_ - _END_ arasındaki kayıtlar gösteriliyor",
+        "infoEmpty": "Kayıt yok",
+        "infoFiltered": "(_MAX_ kayıt içerisinden bulunan)",
+        "infoThousands": ".",
+        "lengthMenu": "Sayfada _MENU_ kayıt göster",
+        "loadingRecords": "Yükleniyor...",
+        "processing": "İşleniyor...",
+        "search": "Ara:",
+        "zeroRecords": "Eşleşen kayıt bulunamadı",
+        "paginate": {
+            "first": "İlk",
+            "last": "Son",
+            "next": "Sonraki",
+            "previous": "Önceki"
+        },
+        "aria": {
+            "sortAscending": ": artan sütun sıralamasını aktifleştir",
+            "sortDescending": ": azalan sütun sıralamasını aktifleştir"
+        },
+        "select": {
+            "rows": {
+                "_": "%d kayıt seçildi",
+                "1": "1 kayıt seçildi"
+            },
+            "cells": {
+                "1": "1 hücre seçildi",
+                "_": "%d hücre seçildi"
+            },
+            "columns": {
+                "1": "1 sütun seçildi",
+                "_": "%d sütun seçildi"
+            }
+        }
+    }
+            });
+
+        } );
+</script>
+}
